@@ -1,0 +1,19 @@
+FROM python:3.9-slim
+
+RUN apt-get update  \
+    && apt-get upgrade -y  \
+    && apt-get install -y \
+    chromium wget
+
+# Install chromedriver
+RUN wget http://ports.ubuntu.com/pool/universe/c/chromium-browser/chromium-codecs-ffmpeg-extra_112.0.5615.49-0ubuntu0.18.04.1_arm64.deb \
+    && wget http://ports.ubuntu.com/pool/universe/c/chromium-browser/chromium-codecs-ffmpeg_112.0.5615.49-0ubuntu0.18.04.1_arm64.deb \
+    && wget http://ports.ubuntu.com/pool/universe/c/chromium-browser/chromium-browser_112.0.5615.49-0ubuntu0.18.04.1_arm64.deb \
+    && wget http://ports.ubuntu.com/pool/universe/c/chromium-browser/chromium-chromedriver_112.0.5615.49-0ubuntu0.18.04.1_arm64.deb \
+    && dpkg -i chromium-codecs-ffmpeg-extra_112.0.5615.49-0ubuntu0.18.04.1_arm64.deb chromium-codecs-ffmpeg_112.0.5615.49-0ubuntu0.18.04.1_arm64.deb chromium-browser_112.0.5615.49-0ubuntu0.18.04.1_arm64.deb chromium-chromedriver_112.0.5615.49-0ubuntu0.18.04.1_arm64.deb \
+    && rm -rf *.deb
+
+RUN pip install -U pip \
+    && pip install selenium
+
+CMD ["python3"]
